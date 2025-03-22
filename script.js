@@ -1,6 +1,8 @@
+//getting reference from the html
 const quoteText = document.getElementById("quoteText");
 const authorName = document.getElementById("authorName");
 
+//Hardcoding some images
 const images = [
   "https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
   "https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
@@ -21,15 +23,11 @@ const images = [
   "https://images.unsplash.com/photo-1431631927486-6603c868ce5e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
 ];
 
+//Function to generate random quote and background image
 async function generateQuoteandImage() {
-  // const quoteText = document.getElementById("quoteText");
-  // const authorName = document.getElementById("authorName");
-
   // Start with opacity 0 for fade effect
   quoteText.style.opacity = "0";
   authorName.style.opacity = "0";
-  // document.body.style.opacity = "0";
-
   try {
     const response = await fetch("https://quotes-api-self.vercel.app/quote");
     const quotes = await response.json();
@@ -39,7 +37,9 @@ async function generateQuoteandImage() {
       quoteText.style.opacity = "1"; // Fade in after changing text
       authorName.textContent = `- ${quotes.author}`;
       authorName.style.opacity = "1";
+      //fetching random number according to the number of hardcoded images
       const randomIndex = Math.floor(Math.random() * images.length);
+      //set the random image in background
       document.body.style.backgroundImage = `url(${images[randomIndex]})`;
       document.body.style.opacity = "1"; // Fade in after changing text
     }, 100); // Delay to sync with CSS transition
@@ -50,31 +50,6 @@ async function generateQuoteandImage() {
     authorName.style.opacity = "1"; // Ensure fade-in still happens
   }
 }
-
-// async function generateRandomImage() {
-//     try {
-//         const response = await fetch(
-//           "https://random-image-pepebigotes.vercel.app/api/random-image",
-//           {
-//             mode: "no-cors",
-//           }
-//         );
-//         document.body.style.backgroundImage = `url('https://source.unsplash.com/random')`;
-//     } catch (error) {
-//         console.log("Error fetching image:", error );
-//     }
-// }
-
-// function generateRandomImage() {
-//     document.body.opacity = "0";
-
-//     setTimeout(() => {
-//       const randomIndex = Math.floor(Math.random() * images.length);
-//       document.body.style.backgroundImage = `url(${images[randomIndex]})`;
-//       document.body.style.opacity = "1"; // Fade in after changing text
-//     }, 300);
-
-// }
 
 document.getElementById("generatebtn").addEventListener("click", () => {
   generateQuoteandImage();
@@ -95,10 +70,6 @@ document.getElementById("copybtn").addEventListener("click", () => {
       }
     );
 });
-
-document.body.style.background = `url(${document.body.style.backgroundImage
-  .replace('url("', "")
-  .replace('")', "")}) center/cover no-repeat`;
 
 function printQuote() {
   try {
@@ -124,11 +95,14 @@ function printQuote() {
   }
 }
 
+function shareonX() {
+  const xShareURL = `https://twitter.com/intent/tweet?text=${
+    quoteText.textContent + "\n" + authorName.textContent
+  }`;
+  window.open(xShareURL, "_blank");
+}
+
+
 document.getElementById("downloadbtn").addEventListener("click", printQuote);
 
 document.getElementById("shareonX").addEventListener("click", shareonX);
-
-function shareonX() {
-  const xShareURL = `https://twitter.com/intent/tweet?text=${quoteText.textContent + "\n" + authorName.textContent}`;
-  window.open(xShareURL, "_blank");
-}

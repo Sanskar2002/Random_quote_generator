@@ -6,6 +6,7 @@ body {
   background-image: url("https://images.pexels.com/photos/235985/pexels-photo-235985.jpeg?auto=compress&cs=tinysrgb&w=600");
   height: 100vh;
   background-repeat: no-repeat;
+  background: center/cover no-repeat;
   background-size: cover;
   font-family: "Poppins", sans-serif;
   margin: 0;
